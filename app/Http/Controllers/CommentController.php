@@ -33,6 +33,16 @@ class CommentController extends BaseController
         return $this->sendResponse($comment,'Comment created successfully!');
     }
 
+    public function show($id)
+    {
+        $comment = Comment::where('post_id',$id)->get();
+        if (count($comment)==0) {
+            return $this->sendError('comment not found!');
+        }
+        return $this->sendResponse(CommentResource::collection($comment),'Comment retireved Successfully!');
+    }
+
+
     public function update(Request $request,Comment $comment)
     {
         $input = $request->all();
