@@ -18,29 +18,36 @@ class SavedPostController extends BaseController
     {
         $input =$request->all();
         //to use Validator must be more than one values to accept
-        $validator =$this->validate($request,[
+        $this->validate($request,[
             'post_id'=>'required'
         ]);
 //it's should be an array to use fails function
-        if ($validator->fails()) {
-            return $this->sendError('validate error',$validator->errors());
-        }
+        // if ($validator->fails()) {
+        //     return $this->sendError('validate error',$validator->errors());
+        // }
+
 
         $user = Auth::user();
         $input['user_id']=$user->id;
-        $user_id=$user->id;
-        $errorMessage=[];
-        if (Profile::where('user_id',$user_id)->where('post_id',$request->post_id)->first()) {
-            return $this->sendError('you saved this post before',$errorMessage);
+        // $user_id=$user->id;
+        // $errorMessage=[];
+        // if (Profile::where('user_id',$user_id)->where('post_id',$request->post_id)->first()) {
+        //     return $this->sendError('you saved this post before',$errorMessage);
+        // }
+
+        // $profile=Profile::where('id',$like->post_id)->first();
+        // $profile['like_number']=$profile->saved_post_number+1;
+        // $profile->save();
+        $message=[];
+        if (SavedPost::where('user_id',$user->id)->where('post_id',$request->post_id)->first()) {
+            return $this->sendError('you saved this post before',$message);
         }
 
-        $profile=Profile::where('id',$like->post_id)->first();
-        $profile['like_number']=$profile->saved_post_number+1;
-        $profile->save();
-
         $savedPost = SavedPost::create($input);
-        return $this->sendResponse(SavedPostResource::collection($savedPost),'add new post to saved post');
 
+        return $this->sendResponse(new SavedPostResource($savedPost),'add new post to saved post');
+
+        //we use savedpostresource::collecation when we return a collection of data other wies use new
     }
 
     public function show($id)
@@ -53,7 +60,7 @@ class SavedPostController extends BaseController
         if ($savedPost==null) {
             return $this->sendError('ther is no seved post',$message);
         }
-        return $this->sendResponse(new SavedPostResource($savedPost),'seved post retireved Successfully!');
+        return $this->sendResponse(SavedPostResource::collection($savedPost),'seved post retireved Successfully!');
     }
 
 

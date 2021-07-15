@@ -13,11 +13,7 @@ class SavedPost extends Model
     'user_id','post_id'
     ];
 
-    /**
-     * Get the user t the SavedPost
-     *
-     * @return \Illuminate\'App\Models\User'\BelongsTo
-     */
+
     public function user()
     {
         return $this->belongsTo('App\Models\User','user_id' );
