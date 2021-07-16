@@ -68,11 +68,15 @@ class SavedPostController extends BaseController
     {
         $input = $request->all();
         //validator must be more than one value because it's array
-        $validator = $this->validate($input,[
-            'post_id'=>'required',
+        $this->validate($request,[
+            'post_id'=>'required'
         ]);
-        if ($validator->fails()) {
-            return $this->sendError('Validate Error',$validator->errors());
+        // if ($validator->fails()) {
+        //     return $this->sendError('Validate Error',$validator->errors());
+        // }
+        $message=[];
+        if (!SavedPost::where('user_id',Auth::id())->where('post_id',$request->post_id)->first()) {
+            return $this->sendError('this post not saved',$message);
         }
 
         $savedPost=SavedPost::where('user_id',$id)->where('post_id',$request->post_id)->first();
@@ -83,9 +87,9 @@ class SavedPostController extends BaseController
             return $this->sendError('you dont have rights' , $errorMessage);
         }
         $savedPost->delete();
-        $profile =Profile::where('user_id',$savedPost->user_id)->first();
-        $Profile['saved_post_number']=$profile->saved_post_number-1;
-        $profile->save();
+        // $profile =Profile::where('user_id',$savedPost->user_id)->first();
+        // $Profile['saved_post_number']=$profile->saved_post_number-1;
+        // $profile->save();
         return $this->sendResponse($savedPost, 'post deleted Successfully!' );
 
     }
