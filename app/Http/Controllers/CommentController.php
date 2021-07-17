@@ -21,7 +21,7 @@ class CommentController extends BaseController
         $validator = Validator::make($input,[
             'description'=>'required',
              'post_id'=>'required',
-             'parent_id'=>'required',
+             //'parent_id'=>'required',
         ]);
         if ($validator->fails()) {
             return $this->sendError('Validate Error',$validator->errors());
