@@ -83,7 +83,7 @@ class ProfileController extends BaseController
         $profile = Profile::where('user_id',$id)->first();
         $message = [];
         if ($profile == null) {
-            return $this->sendError('ther is no profile to that user',$message);
+            return $this->sendError('there is no profile to that user',$message);
         }
         return $this->sendResponse(new ProfileResource($profile),'the profile retrived successfully');
     }

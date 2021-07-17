@@ -94,11 +94,13 @@ class PostController extends BaseController
 
     public function destroy(Post $post)
     {
+
         $errorMessage = [] ;
 
         if ( $post->user_id != Auth::id()) {
             return $this->sendError('you dont have rights' , $errorMessage);
         }
+
         $post->delete();
         return $this->sendResponse(new PostResource($post), 'Post deleted Successfully!' );
 

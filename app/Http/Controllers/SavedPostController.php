@@ -58,7 +58,7 @@ class SavedPostController extends BaseController
             return $this->sendError('you don not have right',$message);
         }
         if ($savedPost==null) {
-            return $this->sendError('ther is no seved post',$message);
+            return $this->sendError('there is no seved post',$message);
         }
         return $this->sendResponse(SavedPostResource::collection($savedPost),'seved post retireved Successfully!');
     }
