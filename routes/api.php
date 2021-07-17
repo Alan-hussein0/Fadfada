@@ -30,4 +30,5 @@ Route::middleware('auth:api')->group(function (){
     Route::resource('like','LikeController');
     Route::resource('savedPost', 'SavedPostController');
     Route::resource('story', 'StoryController');
+    Route::resource('report', 'ReportController');
 });

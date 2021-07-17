@@ -51,7 +51,7 @@ class PostController extends BaseController
         if (count($post)==0) {
             return $this->sendError('Post not found!');
         }
-        return $this->sendResponse(PostResource::collection($post),'Post retireved Successfully!');
+        return $this->sendResponse(PostResource::collection($post),'Post retrieved Successfully!');
     }
 
 
