@@ -56,6 +56,18 @@ class PostController extends BaseController
     }
 
 
+
+    public function showDetail($id)
+    {
+        $post = Post::where('id',$id)->first();
+        $errorMessage =[];
+        if ($post===null) {
+            return $this->sendError('there is no post have this id ',$errorMessage);
+        }
+
+        return $this->sendResponse(new PostResource($post),'post retrieved successfully!');
+    }
+
     public function update(Request $request, Post $post)
     {
         $input = $request->all();

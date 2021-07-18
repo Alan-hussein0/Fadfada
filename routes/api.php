@@ -31,4 +31,5 @@ Route::middleware('auth:api')->group(function (){
     Route::resource('savedPost', 'SavedPostController');
     Route::resource('story', 'StoryController');
     Route::resource('report', 'ReportController');
+    Route::get('posts/detail/{id}','PostController@showDetail');
 });
