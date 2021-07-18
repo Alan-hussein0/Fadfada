@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Resources\SavedPost as SavedPostResource;
 use App\Http\Resources\Post as PostResource;
+use App\Http\Controllers\DB;
+
 
 class SavedPostController extends BaseController
 {
@@ -60,18 +62,24 @@ class SavedPostController extends BaseController
         }
 
         $savedPost=SavedPost::where('user_id',$id)->get();
-        return $this->sendResponse(SavedPostResource::collection($savedPost),'seved post retireved Successfully!');
-
+        $post_id=(array)$savedPost->pluck('post_id')->toArray();
+       // return $this->sendResponse($post_id,'seved post retireved Successfully!');
+       // return $this->sendResponse(SavedPostResource::collection($savedPost),'seved post retireved Successfully!');
         if (!SavedPost::where('user_id',$id)->first()) {
             return $this->sendError('there is no seved post',$message);
         }
 
-        foreach ($savedPost as $savedPost) {
-           // $post = Post::find('id',$savedPost->post_id)->get();
-           $post = Post::where('id',$savedPost->post_id)->first();
-        }
+        // $post_id = [];
 
-       // $post = $post->get();
+        // foreach ($savedPost as $savedPost) {
+        //     $post_id = $savedPost->post_id;
+        //      //$this->sendResponse(new PostResource($post),'seved post retireved Successfully!');
+
+        // }
+        //unset($post_id);
+        //  $post = $post->get();
+
+        $post=Post::whereIn('id',$post_id)->get();
 
         return $this->sendResponse(PostResource::collection($post),'seved post retireved Successfully!');
     }
