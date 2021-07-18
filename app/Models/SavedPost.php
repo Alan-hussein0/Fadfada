@@ -18,4 +18,11 @@ class SavedPost extends Model
     {
         return $this->belongsTo('App\Models\User','user_id' );
     }
+
+
+
+    public function post()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
 }

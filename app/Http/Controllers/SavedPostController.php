@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\SavedPost;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController as BaseController;
 use App\Http\Resources\Profile;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Resources\SavedPost as SavedPostResource;
+use App\Http\Resources\Post as PostResource;
 
 class SavedPostController extends BaseController
 {
@@ -52,15 +54,24 @@ class SavedPostController extends BaseController
 
     public function show($id)
     {
-        $savedPost=SavedPost::where('user_id',$id)->get();
         $message=[];
         if (Auth::id()!=$id) {
             return $this->sendError('you don not have right',$message);
         }
-        if ($savedPost==null) {
+
+        $savedPost=SavedPost::where('user_id',$id)->get();
+
+
+        if (!SavedPost::where('user_id',$id)->first()) {
             return $this->sendError('there is no seved post',$message);
         }
-        return $this->sendResponse(SavedPostResource::collection($savedPost),'seved post retireved Successfully!');
+
+        foreach ($savedPost as $savedPost) {
+            $post = Post::where('id',$savedPost->post_id)->get();
+        }
+
+
+        return $this->sendResponse(PostResource::collection($post),'seved post retireved Successfully!');
     }
 
 

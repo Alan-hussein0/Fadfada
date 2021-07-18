@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SavedPost;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Validator;
@@ -101,6 +102,12 @@ class PostController extends BaseController
             return $this->sendError('you dont have rights' , $errorMessage);
         }
 
+        $savedPost = SavedPost::where('post_id',$post->id)->get();
+        if (SavedPost::where('post_id',$post->id)->first()) {
+            foreach ($savedPost as $savedPost) {
+                $savedPost->delete();
+            }
+        }
         $post->delete();
         return $this->sendResponse(new PostResource($post), 'Post deleted Successfully!' );
 
