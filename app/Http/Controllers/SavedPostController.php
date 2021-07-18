@@ -23,12 +23,12 @@ class SavedPostController extends BaseController
         $this->validate($request,[
             'post_id'=>'required'
         ]);
-//it's should be an array to use fails function
-        // if ($validator->fails()) {
-        //     return $this->sendError('validate error',$validator->errors());
-        // }
 
+        $message=[];
 
+        if (!Post::where('id',$request->post_id)->first()) {
+            return $this->sendError('there is no post', $message);
+        }
         $user = Auth::user();
         $input['user_id']=$user->id;
         // $user_id=$user->id;
@@ -40,7 +40,7 @@ class SavedPostController extends BaseController
         // $profile=Profile::where('id',$like->post_id)->first();
         // $profile['like_number']=$profile->saved_post_number+1;
         // $profile->save();
-        $message=[];
+
         if (SavedPost::where('user_id',$user->id)->where('post_id',$request->post_id)->first()) {
             return $this->sendError('you saved this post before',$message);
         }
@@ -60,16 +60,18 @@ class SavedPostController extends BaseController
         }
 
         $savedPost=SavedPost::where('user_id',$id)->get();
-
+        return $this->sendResponse(SavedPostResource::collection($savedPost),'seved post retireved Successfully!');
 
         if (!SavedPost::where('user_id',$id)->first()) {
             return $this->sendError('there is no seved post',$message);
         }
 
         foreach ($savedPost as $savedPost) {
-            $post = Post::where('id',$savedPost->post_id)->get();
+           // $post = Post::find('id',$savedPost->post_id)->get();
+           $post = Post::where('id',$savedPost->post_id)->first();
         }
 
+       // $post = $post->get();
 
         return $this->sendResponse(PostResource::collection($post),'seved post retireved Successfully!');
     }
