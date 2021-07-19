@@ -15,12 +15,15 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('description');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('from_user_id')->unsigned();
             $table->bigInteger('post_id')->nullable();
             $table->bigInteger('like_id')->nullable();
             $table->bigInteger('comment_id')->nullable();
+            $table->string('image');
+            $table->string('first_name');
+            $table->string('second_name');
+            $table->string('description');
             $table->timestamps();
         });
     }

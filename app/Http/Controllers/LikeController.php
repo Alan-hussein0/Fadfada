@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Controllers\BaseController as BaseController;
+use App\Http\Resources\Like as ResourcesLike;
 use App\Models\Notification;
 use App\Models\Post;
+
 
 
 class LikeController extends BaseController
@@ -45,10 +47,13 @@ class LikeController extends BaseController
             'user_id'=>$post->user_id,
             'from_user_id'=>$user_id,
             'post_id'=>$post->id,
-            'description'=>'like your post',
+            'description'=>'like',
             'like_id'=>$like->id,
+            'first_name'=>$user->profile->first_name,
+            'second_name'=>$user->profile->second_name,
+            'image'=>$user->profile->image
         ]);
-        return $this->sendResponse($like,'like add successfully');
+        return $this->sendResponse(new ResourcesLike($like),'like add successfully');
     }
 
 

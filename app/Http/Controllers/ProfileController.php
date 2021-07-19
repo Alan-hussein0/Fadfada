@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BaseController as BaseController;
 use App\Http\Resources\Profile as ProfileResource;
+use App\Models\Notification;
 
 class ProfileController extends BaseController
 {
@@ -36,6 +37,9 @@ class ProfileController extends BaseController
     public function update(Request $request, Profile $profile)
     {
         $input = $request->all();
+
+        $notification = Notification::where('from_user_id',Auth::id())->first();
+
         $validator = Validator::make($input,[
             'first_name' => 'required',
             'second_name' => 'required',
@@ -61,6 +65,8 @@ class ProfileController extends BaseController
             $photo->move('profile/image',$newPhoto);
 
             $input['image']='profile/image/'.$newPhoto;
+
+            $notification->image=$input['image'];
             }
 
         $profile->first_name = $input['first_name'];
@@ -72,6 +78,10 @@ class ProfileController extends BaseController
         $profile->date_of_birth = $input['date_of_birth'];
 
         $profile->save();
+
+        $notification->first_name = $input['first_name'];
+        $notification->second_name = $input['second_name'];
+        $notification->save();
 
         return $this->sendResponse(new ProfileResource($profile), 'Profile updated Successfully!' );
 

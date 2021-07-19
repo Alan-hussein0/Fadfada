@@ -37,8 +37,11 @@ class CommentController extends BaseController
             'user_id'=>$post->user_id,
             'from_user_id'=>$user->id,
             'post_id'=>$request->post_id,
-            'description'=>'comment on your post',
+            'description'=>'comment',
             'comment_id'=>$comment->id,
+            'first_name'=>$user->profile->first_name,
+            'second_name'=>$user->profile->second_name,
+            'image'=>$user->profile->image,
         ]);
         return $this->sendResponse($comment,'Comment created successfully!');
     }

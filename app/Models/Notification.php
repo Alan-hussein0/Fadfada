@@ -15,7 +15,10 @@ class Notification extends Model
         'description',
         'post_id',
         'like_id',
-        'comment'
+        'comment',
+        'image',
+        'first_name',
+        'second_name'
     ];
 
 public function user()
