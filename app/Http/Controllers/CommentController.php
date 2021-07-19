@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BaseController as BaseController;
 use App\Http\Resources\Comment as CommentResource;
+use App\Models\Notification;
+use App\Models\Post;
 
 class CommentController extends BaseController
 {
@@ -27,9 +29,17 @@ class CommentController extends BaseController
             return $this->sendError('Validate Error',$validator->errors());
         }
 
+        $post = Post::where('id',$request->post_id)->first();
         $user = Auth::user();
         $input['user_id'] = $user->id;
         $comment = Comment::create($input);
+        Notification::create([
+            'user_id'=>$post->user_id,
+            'from_user_id'=>$user->id,
+            'post_id'=>$request->post_id,
+            'description'=>'comment on your post',
+            'comment_id'=>$comment->id,
+        ]);
         return $this->sendResponse($comment,'Comment created successfully!');
     }
 

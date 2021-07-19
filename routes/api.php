@@ -32,4 +32,5 @@ Route::middleware('auth:api')->group(function (){
     Route::resource('story', 'StoryController');
     Route::resource('report', 'ReportController');
     Route::get('posts/detail/{id}','PostController@showDetail');
+    Route::resource('notification', 'NotificationController');
 });

@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Controllers\BaseController as BaseController;
+use App\Models\Notification;
 use App\Models\Post;
+
 
 class LikeController extends BaseController
 {
@@ -39,6 +41,13 @@ class LikeController extends BaseController
         $post=Post::where('id',$like->post_id)->first();
         $post['like_number']=$post->like_number+1;
         $post->save();
+        Notification::create([
+            'user_id'=>$post->user_id,
+            'from_user_id'=>$user_id,
+            'post_id'=>$post->id,
+            'description'=>'like your post',
+            'like_id'=>$like->id,
+        ]);
         return $this->sendResponse($like,'like add successfully');
     }
 
