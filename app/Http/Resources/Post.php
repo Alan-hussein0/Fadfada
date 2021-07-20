@@ -22,6 +22,7 @@ class Post extends JsonResource
            'image'=>$this->image,
            'status'=>$this->status,
            'like_number'=>$this->like_number,
+           'comment_number'=>$this->comment_number,
            'name'=>$this->user->name,
            'first_name'=>$this->user->profile->first_name,
            'second_name'=>$this->user->profile->second_name,

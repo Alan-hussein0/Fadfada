@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use phpDocumentor\Reflection\Types\This;
 
 class Story extends JsonResource
 {
@@ -22,6 +23,7 @@ class Story extends JsonResource
            'video'=>$this->video,
            'status'=>$this->status,
            'name'=>$this->user->name,
+           'processed'=>$this->processed,
            'first_name'=>$this->user->profile->first_name,
            'second_name'=>$this->user->profile->second_name,
            'created_at'=>$this->created_at->format('d/m/y'),

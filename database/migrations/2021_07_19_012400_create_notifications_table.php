@@ -21,6 +21,7 @@ class CreateNotificationsTable extends Migration
             $table->bigInteger('like_id')->nullable();
             $table->bigInteger('comment_id')->nullable();
             $table->string('image');
+            $table->string('seen')->default('false');
             $table->string('first_name');
             $table->string('second_name');
             $table->string('description');

@@ -25,6 +25,7 @@ class Notification extends JsonResource
             'image'=>$this->image,
             'description'=>$this->description,
             'from_user_id'=>$this->from_user_id,
+            'seen'=>$this->seen,
             'created_at'=>$this->created_at->format('d/m/y'),
             'updated_at'=>$this->updated_at->format('d/m/y'),
         ];

@@ -42,7 +42,16 @@ class NotificationController extends BaseController
 
     public function update(Request $request, Notification $notification)
     {
-        //
+        $errorMessage = [];
+        $this->validate($request,[
+            'seen'=>['required'],
+        ]);
+        if (Auth::id()!=$notification->user_id) {
+            return $this->sendError('you do not have right',$errorMessage);
+        }
+        $notification->seen=$request->seen;
+        $notification->save();
+        return $this->sendResponse(new ResourcesNotification($notification),'The notification has marked as seen');
     }
 
     /**

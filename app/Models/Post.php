@@ -13,7 +13,8 @@ class Post extends Model
         'image',
         'status',
         'user_id',
-        'like_number'
+        'like_number',
+        'comment_number'
     ];
 
     public function user()

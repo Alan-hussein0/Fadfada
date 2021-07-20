@@ -30,6 +30,8 @@ class CommentController extends BaseController
         }
 
         $post = Post::where('id',$request->post_id)->first();
+        $post->comment_number = $post->comment_number + 1;
+        $post->save();
         $user = Auth::user();
         $input['user_id'] = $user->id;
         $comment = Comment::create($input);
@@ -81,13 +83,19 @@ class CommentController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment,Request $request)
     {
+        $this->validate($request,[
+            'post_id'=>'required'
+        ]);
         $errorMessage = [];
         if ( $comment->user_id != Auth::id()) {
             return $this->sendError('you dont have rights' , $errorMessage);
         }
         $comment->delete();
+        $post = Post::where('id',$request->post_id)->first();
+        $post->comment_number = $post->comment_number - 1;
+        $post->save();
         return $this->sendResponse(new CommentResource($comment), 'Comment deleted Successfully!' );
 
     }

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Story;
-use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BaseController as BaseController;
 use App\Http\Resources\Story as ResourcesStory;
+use Validator;
 
 class StoryController extends BaseController
 {
@@ -60,11 +60,35 @@ class StoryController extends BaseController
     }
 
 
-    // public function update(Request $request, Story $story)
-    // {
-    //     //
-    // }
+    public function update(Request $request, Story $story)
+    {
+        $input = $request->all();
+        $validator=Validator::make($input,[
+            'video'=>'required|mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
+            'processed'=>['required','boolean']
+        ]);
 
+        if ($validator->fails()) {
+            return $this->sendError('validate error',$validator->errors());
+        }
+
+        $story->processed = $input['processed'];
+
+        $video = $request->video;
+        $newVideo = time().$video->getClienOriginalName();
+        $video->move('story/video/processed',$newVideo);
+        $input['video']= 'story/video/processed/'.$newVideo;
+
+        $story->video = $input['video'];
+        $story->save();
+        return $this->sendResponse(new ResourcesStory($story),'the story processed successfully!');
+    }
+
+    // $video = $request->video;
+    // $newVideo = time().$video->getClientOriginalName();
+    // $video->move('story/video',$newVideo);
+
+    // $input['video']='story/video/'.$newVideo;
 
     public function destroy(Story $story)
     {
