@@ -76,8 +76,8 @@ class StoryController extends BaseController
 
         $video = $request->video;
         $newVideo = time().$video->getClienOriginalName();
-        $video->move('story/video/processed',$newVideo);
-        $input['video']= 'story/video/processed/'.$newVideo;
+        $video->move('story/video_processed',$newVideo);
+        $input['video']= 'story/video_processed/'.$newVideo;
 
         $story->video = $input['video'];
         $story->save();
