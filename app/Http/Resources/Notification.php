@@ -15,7 +15,7 @@ class Notification extends JsonResource
     public function toArray($request)
     {
         return [
-
+            'id'=>$this->id,
             'user_id'=>$this->user_id,
             'post_id'=>$this->post_id,
             'like_id'=>$this->like_id,
@@ -26,8 +26,8 @@ class Notification extends JsonResource
             'description'=>$this->description,
             'from_user_id'=>$this->from_user_id,
             'seen'=>$this->seen,
-            'created_at'=>$this->created_at->format('d/m/y'),
-            'updated_at'=>$this->updated_at->format('d/m/y'),
+            'created_at'=>$this->created_at->format('d/m/y/ h:m:s'),
+            'updated_at'=>$this->updated_at->format('d/m/y h:m:s'),
         ];
     }
 }

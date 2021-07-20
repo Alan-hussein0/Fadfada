@@ -26,8 +26,8 @@ class Profile extends JsonResource
         'bio'=>$this->bio,
         'date_of_birth'=>$this->date_of_birth,
 
-        'created_at'=>$this->created_at->format('d/m/y'),
-        'updated_at'=>$this->updated_at->format('d/m/y'),
+        'created_at'=>$this->created_at->format('d/m/y h:m:s'),
+        'updated_at'=>$this->updated_at->format('d/m/y h:m:s'),
     ];
     }
 }

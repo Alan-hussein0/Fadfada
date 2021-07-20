@@ -18,8 +18,8 @@ class Like extends JsonResource
             'post_id'=>$this->post_id,
             'user_id'=>$this->user_id,
             'like'=>$this->like,
-            'created_at'=>$this->created_at->format('d/m/y'),
-            'updated_at'=>$this->updated_at->format('d/m/y'),
+            'created_at'=>$this->created_at->format('d/m/y h:m:s'),
+            'updated_at'=>$this->updated_at->format('d/m/y h:m:s'),
         ];
 
 

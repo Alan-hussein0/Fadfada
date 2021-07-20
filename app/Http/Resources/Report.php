@@ -19,8 +19,8 @@ class Report extends JsonResource
             'post_id'=>$this->post_id,
             'description'=>$this->description,
             'processed'=>$this->processed,
-            'created_at'=>$this->created_at->format('d/m/y'),
-            'updated_at'=>$this->updated_at->format('d/m/y'),
+            'created_at'=>$this->created_at->format('d/m/y h:m:s'),
+            'updated_at'=>$this->updated_at->format('d/m/y h:m:s'),
         ];
     }
 }
