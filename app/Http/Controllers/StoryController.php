@@ -64,9 +64,20 @@ class StoryController extends BaseController
     {
         $input = $request->all();
         $validator=Validator::make($input,[
-            'video'=>'required|mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
+            // 'video'=>'required|mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
+            'video'=>'required|mimes:video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv',
             'processed'=>['required','boolean']
         ]);
+
+        // video/x-flv
+        // MPEG-4          .mp4            video/mp4
+        // iPhone Index    .m3u8           application/x-mpegURL
+        // iPhone Segment  .ts             video/MP2T
+        // 3GP Mobile      .3gp            video/3gpp
+        // QuickTime       .mov            video/quicktime
+        // A/V Interleave  .avi            video/x-msvideo
+        // Windows Media   .wmv            video/x-ms-wmv
+
 
         if ($validator->fails()) {
             return $this->sendError('validate error',$validator->errors());
