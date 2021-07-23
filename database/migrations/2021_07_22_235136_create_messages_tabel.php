@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMessangersTable extends Migration
+class CreateMessagesTabel extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateMessangersTable extends Migration
      */
     public function up()
     {
-        Schema::create('messangers', function (Blueprint $table) {
+        Schema::create('messages_tabel', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('from_user_id')->unsigned();
             $table->bigInteger('to_user_id')->unsigned();
@@ -29,6 +29,6 @@ class CreateMessangersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messangers');
+        Schema::dropIfExists('messages_tabel');
     }
 }

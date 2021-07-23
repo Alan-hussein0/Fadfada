@@ -59,14 +59,17 @@ class ProfileController extends BaseController
             return $this->sendError('you dont have rights' , $validator->errors());
         }
 
-        if ($request->image != null) {
+        if ($input['image'] != null) {
             $photo = $request->image;
             $newPhoto = time().$photo->getClientOriginalName();
             $photo->move('profile/image',$newPhoto);
 
             $input['image']='profile/image/'.$newPhoto;
+            $profile->image=$input['image'];
+            if ($notification!=null) {
+                $notification->image=$input['image'];
+            }
 
-            $notification->image=$input['image'];
             }
 
         $profile->first_name = $input['first_name'];
@@ -79,9 +82,11 @@ class ProfileController extends BaseController
 
         $profile->save();
 
+        if ($notification!=null) {
         $notification->first_name = $input['first_name'];
         $notification->second_name = $input['second_name'];
         $notification->save();
+        }
 
         return $this->sendResponse(new ProfileResource($profile), 'Profile updated Successfully!' );
 
