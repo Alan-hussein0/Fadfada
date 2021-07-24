@@ -23,8 +23,8 @@ class StoryController extends BaseController
     {
         $input = $request->all();
         $this->validate($request,[
-            //'video'=>'required|mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv'
-            'video'=>'required'
+            'video'=>'required|mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv'
+            //'video'=>'required'
         ]);
 
         if ($request->image != null) {
@@ -65,8 +65,8 @@ class StoryController extends BaseController
     {
         $input = $request->all();
         $validator=Validator::make($input,[
-            'video'=>'required',
-            //'video'=>'required|mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
+            //'video'=>'required',
+            'video'=>'required|mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
             //'video'=>'required|mimes:video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv',
             'processed'=>['required','boolean']
         ]);
