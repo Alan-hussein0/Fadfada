@@ -59,7 +59,8 @@ class ProfileController extends BaseController
             return $this->sendError('you dont have rights' , $validator->errors());
         }
 
-        if ($input['image'] != null) {
+        if ($request->image != null) {
+
             $photo = $request->image;
             $newPhoto = time().$photo->getClientOriginalName();
             $photo->move('profile/image',$newPhoto);
