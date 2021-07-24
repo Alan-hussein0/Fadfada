@@ -26,6 +26,7 @@ class Story extends JsonResource
            'processed'=>$this->processed,
            'first_name'=>$this->user->profile->first_name,
            'second_name'=>$this->user->profile->second_name,
+           'image_profil'=>$this->user->profile->image,
            'created_at'=>$this->created_at->format('d/m/y h:m:s'),
            'updated_at'=>$this->updated_at->format('d/m/y h:m:s'),
         ];
