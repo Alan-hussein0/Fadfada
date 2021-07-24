@@ -23,10 +23,10 @@ class Post extends JsonResource
            'status'=>$this->status,
            'like_number'=>$this->like_number,
            'comment_number'=>$this->comment_number,
-           'name'=>$this->user->name,
+           //'name'=>$this->user->name,
            'first_name'=>$this->user->profile->first_name,
            'second_name'=>$this->user->profile->second_name,
-           'image'=>$this->user->profile->image,
+           'image_profile'=>$this->user->profile->image,
            'created_at'=>$this->created_at->format('d/m/y h:m:s'),
            'updated_at'=>$this->updated_at->format('d/m/y h:m:s'),
        ];
