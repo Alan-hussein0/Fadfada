@@ -13,6 +13,7 @@ class AddCommentNumberToPostsTable extends Migration
      */
     public function up()
     {
+
         Schema::table('posts', function (Blueprint $table) {
             $table->bigInteger('comment_number')->default(0);
         });
@@ -26,7 +27,7 @@ class AddCommentNumberToPostsTable extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            //
+            $table->dropColumn(['comment_number']);
         });
     }
 }

@@ -12,24 +12,30 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 
-class NewMessage implements ShouldBroadcast
+class MessageRead
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
+
     public $user;
+
+
     public $chat;
+
+    public $read_at;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user,Message $message,Chat $chat)
+    public function __construct(User $user,Chat $chat)
     {
-        $this->message=$message;
-        $this->user=$user;
         $this->chat=$chat;
+        $this->user=$user;
+        $this->read_at = Carbon::now();
     }
 
     /**
@@ -39,6 +45,6 @@ class NewMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat.'. $this->chat->id);
+        return new PrivateChannel('chat.'.$this->chat->id);
     }
 }

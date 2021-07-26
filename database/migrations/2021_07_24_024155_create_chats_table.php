@@ -13,12 +13,15 @@ class CreateChatsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('chats');
         Schema::create('chats', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title');
+            $table->uuid('id')->primary();
+            $table->string('title',80)->nullable();
             $table->timestamps();
         });
     }
+
+
 
     /**
      * Reverse the migrations.

@@ -53,4 +53,14 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Notification');
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    public function chats()
+    {
+        return $this->belongsToMany(Chat::class, 'chat_participants')->withTimestamps();
+    }
+
 }

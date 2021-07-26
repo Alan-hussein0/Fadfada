@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMessagesTabel extends Migration
+class ChatMessages extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,16 @@ class CreateMessagesTabel extends Migration
      */
     public function up()
     {
-        Schema::create('messages_tabel', function (Blueprint $table) {
-            $table->increments('id');
-            $table->bigInteger('from_user_id')->unsigned();
-            $table->bigInteger('to_user_id')->unsigned();
-            $table->longText('text');
+        Schema::create('chat_messages', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('message_id');
+            $table->uuid('chat_id');
             $table->timestamps();
+
+            $table->foreign('chat_id')
+                ->references('id')
+                ->on('chats')
+                ->onDelete('cascade');
         });
     }
 
@@ -29,6 +33,6 @@ class CreateMessagesTabel extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messages_tabel');
+        Schema::dropIfExists('chat_messages');
     }
 }
