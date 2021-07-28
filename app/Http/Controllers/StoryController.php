@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Story;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BaseController as BaseController;
 use App\Http\Resources\Story as ResourcesStory;
 use Validator;
+use App\Helper\Helper;
+use App\Http\Resources\ProcessVideo as ResourcesProcessVideo;
 
 class StoryController extends BaseController
 {
@@ -46,6 +49,9 @@ class StoryController extends BaseController
         $input['user_id']=$user->id;
         $story = Story::create($input);
 
+
+        Helper::PostApi('http://127.0.0.1:5000/video/process/',new ResourcesProcessVideo($story));
+
         return $this->sendResponse(new ResourcesStory($story),'post created successfully!');
 
     }
@@ -65,20 +71,10 @@ class StoryController extends BaseController
     {
         $input = $request->all();
         $validator=Validator::make($input,[
-            //'video'=>'required',
             'video'=>'required|mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
-            //'video'=>'required|mimes:video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv',
             'processed'=>['required','boolean']
         ]);
 
-        // video/x-flv
-        // MPEG-4          .mp4            video/mp4
-        // iPhone Index    .m3u8           application/x-mpegURL
-        // iPhone Segment  .ts             video/MP2T
-        // 3GP Mobile      .3gp            video/3gpp
-        // QuickTime       .mov            video/quicktime
-        // A/V Interleave  .avi            video/x-msvideo
-        // Windows Media   .wmv            video/x-ms-wmv
 
 
         if ($validator->fails()) {
@@ -95,14 +91,13 @@ class StoryController extends BaseController
         $story->video = $input['video'];
         $story->save();
       //  $this->destroy($story);
-        return $this->sendResponse(new ResourcesStory($story),'the story processed successfully!');
+       return $this->sendResponse(new ResourcesStory($story),'the story processed successfully!');
+
+
     }
 
-    // $video = $request->video;
-    // $newVideo = time().$video->getClientOriginalName();
-    // $video->move('story/video',$newVideo);
 
-    // $input['video']='story/video/'.$newVideo;
+
 
     public function destroy(Story $story)
     {
@@ -122,3 +117,14 @@ class StoryController extends BaseController
 
     }
 }
+
+
+
+        // video/x-flv
+        // MPEG-4          .mp4            video/mp4
+        // iPhone Index    .m3u8           application/x-mpegURL
+        // iPhone Segment  .ts             video/MP2T
+        // 3GP Mobile      .3gp            video/3gpp
+        // QuickTime       .mov            video/quicktime
+        // A/V Interleave  .avi            video/x-msvideo
+        // Windows Media   .wmv            video/x-ms-wmv

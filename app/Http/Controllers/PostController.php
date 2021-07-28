@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Helper;
 use App\Models\SavedPost;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -26,7 +27,8 @@ class PostController extends BaseController
         $validator = Validator::make($input,[
             'text'=>'required',
             // 'image'=>'required',
-            'status'=>'required',
+            'status'=>['required','regex:(problem|Problem|experiment|Experiment)'],
+            'tags'=>'required'
         ]);
         if ($validator->fails()) {
             return $this->sendError('Validate Error',$validator->errors());
@@ -43,7 +45,12 @@ class PostController extends BaseController
         $user = Auth::user();
         $input['user_id'] = $user->id;
         $post = Post::create($input);
-        return $this->sendResponse($post,'post created successfully!');
+
+        if ($input['status']==='problem'||$input['status']==='Problem') {
+            Helper::PostApi('http://127.0.0.1:5000/ai/model_suicide_detection/',new PostResource($post));
+        }
+
+        return $this->sendResponse(new PostResource($post),'post created successfully!');
     }
 
     public function show($id)
